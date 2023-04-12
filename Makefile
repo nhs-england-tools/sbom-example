@@ -1,7 +1,7 @@
 clean:
 	rm -rf \
 		node_modules \
+		cve-scan.json \
 		package-lock.json \
-		report.sarif \
 		sbom.spdx.json \
 		yarn.lock

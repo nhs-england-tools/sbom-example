@@ -12,18 +12,18 @@ jobs:
           --volume $PWD:/project \
           --workdir /project \
           anchore/syft:latest \
-            ./ --output spdx-json=./sbom.spdx.json
+            ./ --output spdx-json=./sbom-spdx.json
     - uses: actions/upload-artifact@v3
       with:
-        name: sbom
-        path: ./sbom.spdx.json
+        name: sbom-report
+        path: ./sbom-spdx.json
     - run: |
         docker run --rm \
           --volume $PWD:/project \
           --workdir /project \
           anchore/grype:latest \
-            sbom:./sbom.spdx.json --output sarif --file=./report.sarif
+            sbom:./sbom.spdx.json --output json --file=./cve-scan.json
     - uses: actions/upload-artifact@v3
       with:
-        name: sarif
-        path: ./report.sarif
+        name: cve-report
+        path: ./cve-scan.json
