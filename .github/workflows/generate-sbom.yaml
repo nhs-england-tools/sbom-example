@@ -22,7 +22,7 @@ jobs:
           --volume $PWD:/project \
           --workdir /project \
           anchore/grype:latest \
-            sbom:./sbom.spdx.json --output json --file=./cve-scan.json
+            sbom:./sbom-spdx.json --output json --file=./cve-scan.json
     - uses: actions/upload-artifact@v3
       with:
         name: cve-report
