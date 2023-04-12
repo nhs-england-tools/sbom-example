@@ -16,4 +16,4 @@ jobs:
         artifact-name: sbom.spdx.json
     - uses: actions/upload-artifact@v3
       with:
-        path: sbom.spdx.json
+        path: ./react/sbom.spdx.json
