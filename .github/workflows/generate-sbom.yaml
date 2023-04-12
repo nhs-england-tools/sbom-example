@@ -1,0 +1,18 @@
+name: "Generate SBOM"
+on:
+  push:
+    branches: [main]
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: |
+        docker run --rm \
+          --volume $PWD:/project \
+          --workdir /project \
+          anchore/syft:latest \
+            ./ -o spdx-json=sbom.spdx.json
+    - uses: actions/upload-artifact@v3
+      with:
+        path: ./sbom.spdx.json
