@@ -7,46 +7,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-    - run: yarn
-    # - run: |
-    #     docker run --rm \
-    #       --volume $PWD:/project \
-    #       --workdir /project \
-    #       anchore/syft:latest \
-    #         ./ --output spdx-json=./sbom.spdx.json
-    # - uses: actions/upload-artifact@v3
-    #   with:
-    #     name: sbom
-    #     path: ./sbom.spdx.json
-    # - uses: advanced-security/spdx-dependency-submission-action@v0.0.1
-    #   with:
-    #     filePath: ./sbom.spdx.json
-    - uses: anchore/sbom-action@v0
+    - run: |
+        docker run --rm \
+          --volume $PWD:/project \
+          --workdir /project \
+          anchore/syft:latest \
+            ./ --output spdx-json=./sbom.spdx.json
+    - uses: actions/upload-artifact@v3
       with:
-        path: ./
-        format: spdx-json
-        artifact-name: sbom.spdx.json
-        output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
-    # - run: |
-    #     docker run --rm \
-    #       --volume $PWD:/project \
-    #       --workdir /project \
-    #       anchore/grype:latest \
-    #         sbom:./sbom.spdx.json --output sarif --file=./report.sarif
-    #     sed -i 's/-rtm.5//' ./report.sarif
-    # - uses: actions/upload-artifact@v3
-    #   with:
-    #     name: sarif
-    #     path: ./report.sarif
-    - uses: anchore/scan-action@v3
-      id: scan
+        name: sbom
+        path: ./sbom.spdx.json
+    - run: |
+        docker run --rm \
+          --volume $PWD:/project \
+          --workdir /project \
+          anchore/grype:latest \
+            sbom:./sbom.spdx.json --output sarif --file=./report.sarif
+    - uses: actions/upload-artifact@v3
       with:
-        sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
-        output-format: sarif
-        add-cpes-if-none: true
-        fail-build: false
-    - run: cat ${{ steps.scan.outputs.sarif }}
-    - uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: ${{ steps.scan.outputs.sarif }}
+        name: sarif
+        path: ./report.sarif
