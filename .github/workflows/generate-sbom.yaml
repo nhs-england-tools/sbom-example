@@ -27,12 +27,13 @@ jobs:
           --volume $PWD:/project \
           --workdir /project \
           anchore/grype:latest \
-            sbom:./sbom.spdx.json --output sarif --file=./sarif.json
+            sbom:./sbom.spdx.json --output sarif --file=./report.sarif
+        sed -i 's/-rtm.5//' ./report.sarif
     - uses: actions/upload-artifact@v3
       with:
         name: sarif
-        path: ./sarif.json
+        path: ./report.sarif
     - uses: github/codeql-action/upload-sarif@v2
       with:
-        sarif_file: ./sarif.json
+        sarif_file: ./report.sarif
         category: my-coolest-stuff-of-the-day
