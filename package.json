@@ -2,7 +2,7 @@
   "name": "react-sbom-example",
   "version": "0.1.0",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
   }
 }
