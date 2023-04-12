@@ -15,11 +15,6 @@ jobs:
     #       --workdir /project \
     #       anchore/syft:latest \
     #         ./ --output spdx-json=./sbom.spdx.json
-    - uses: anchore/sbom-action@v0
-      with:
-        path: ./
-        format: spdx-json
-        artifact-name: sbom.spdx.json
     # - uses: actions/upload-artifact@v3
     #   with:
     #     name: sbom
@@ -27,6 +22,12 @@ jobs:
     # - uses: advanced-security/spdx-dependency-submission-action@v0.0.1
     #   with:
     #     filePath: ./sbom.spdx.json
+    - uses: anchore/sbom-action@v0
+      with:
+        path: ./
+        format: spdx-json
+        artifact-name: sbom.spdx.json
+        output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
     # - run: |
     #     docker run --rm \
     #       --volume $PWD:/project \
@@ -42,3 +43,7 @@ jobs:
     #   with:
     #     sarif_file: ./report.sarif
     #     category: my-coolest-stuff-of-the-day
+    - uses: anchore/scan-action@v3
+      with:
+        sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
+        acs-report-enable: true
