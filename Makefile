@@ -1,7 +1,8 @@
 clean:
 	rm -rf \
 		node_modules \
-		cve-scan.json \
-		package-lock.json \
-		sbom-spdx.json \
-		yarn.lock
+		cve-scan-*.json \
+		sbom-spdx-*.json \
+
+build:
+	yarn --frozen-lockfile
