@@ -22,7 +22,6 @@ jobs:
           --workdir /project \
           anchore/syft:latest \
             ./ --output spdx-json=./sbom-spdx-${{ steps.datetime.outputs.value }}.json
-        cat ./sbom-spdx-${{ steps.datetime.outputs.value }}.json
     - uses: actions/upload-artifact@v3
       with:
         name: sbom-report
