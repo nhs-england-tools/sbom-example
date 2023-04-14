@@ -27,6 +27,9 @@ jobs:
       with:
         name: sbom-report
         path: ./sbom-spdx-${{ steps.datetime.outputs.value }}.json
+    - uses: advanced-security/spdx-dependency-submission-action@v0.0.1
+      with:
+        filePath: ./sbom-spdx-${{ steps.datetime.outputs.value }}.json
     - run: |
         docker run --rm \
           --volume $PWD:/project \
