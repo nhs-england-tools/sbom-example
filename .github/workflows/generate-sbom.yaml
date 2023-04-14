@@ -38,21 +38,19 @@ jobs:
           --workdir /project \
           anchore/grype:latest \
             sbom:./sbom-spdx-${{ steps.datetime.outputs.value }}.json --output json --file=./cve-scan-${{ steps.datetime.outputs.value }}.json
-    - uses: actions/upload-artifact@v3
-      with:
-        name: cve-report
-        path: ./cve-scan-${{ steps.datetime.outputs.value }}.json
-    # Generate CVE report (SARIF)
-    - run: |
         docker run --rm \
           --volume $PWD:/project \
           --workdir /project \
           anchore/grype:latest \
-            sbom:./sbom-spdx-${{ steps.datetime.outputs.value }}.json --output sarif --file=./${{ steps.datetime.outputs.value }}.sarif
+            sbom:./sbom-spdx-${{ steps.datetime.outputs.value }}.json --output sarif --file=./cve-scan-${{ steps.datetime.outputs.value }}.sarif
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cve-report
+        path: ./cve-scan-${{ steps.datetime.outputs.value }}.json
     - uses: github/codeql-action/upload-sarif@v2
       continue-on-error: true
       with:
-        sarif_file: ./${{ steps.datetime.outputs.value }}.sarif
+        sarif_file: ./$cve-scan-{{ steps.datetime.outputs.value }}.sarif
     # Upload to the central location
     - uses: aws-actions/configure-aws-credentials@v2
       with:
