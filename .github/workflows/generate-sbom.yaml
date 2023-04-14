@@ -11,10 +11,10 @@ jobs:
     steps:
     - run: echo "DATETIME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
     - uses: actions/checkout@v3
-    # - uses: actions/setup-node@v3
-    #   with:
-    #     node-version: "19.x"
-    # - run: make build
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "19.x"
+    - run: make build
     # - run: |
     #     docker run --rm \
     #       --volume $PWD:/project \
