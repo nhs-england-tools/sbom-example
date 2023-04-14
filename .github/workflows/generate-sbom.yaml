@@ -15,16 +15,16 @@ jobs:
       with:
         node-version: "19.x"
     - run: make build
-    # - run: |
-    #     docker run --rm \
-    #       --volume $PWD:/project \
-    #       --workdir /project \
-    #       anchore/syft:latest \
-    #         ./ --output spdx-json=./sbom-spdx-$DATETIME.json
-    # - uses: actions/upload-artifact@v3
-    #   with:
-    #     name: sbom-report
-    #     path: ./sbom-spdx-$DATETIME.json
+    - run: |
+        docker run --rm \
+          --volume $PWD:/project \
+          --workdir /project \
+          anchore/syft:latest \
+            ./ --output spdx-json=./sbom-spdx-$DATETIME.json
+    - uses: actions/upload-artifact@v3
+      with:
+        name: sbom-report
+        path: ./sbom-spdx-$DATETIME.json
     # - run: |
     #     docker run --rm \
     #       --volume $PWD:/project \
