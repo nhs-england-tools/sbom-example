@@ -11,8 +11,8 @@ jobs:
     steps:
     - id: set-current-datetime
       run: echo "value=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-    - run: echo (1) The DATETIME variable value is set to '${{ steps.set-current-datetime.outputs.value }}'
-    - run: echo (2) The DATETIME variable value is set to '${{ steps.set-current-datetime.outputs.value }}'
+    - run: echo The DATETIME variable value is set to '${{ steps.set-current-datetime.outputs.value }}'
+    - run: echo The DATETIME variable value is set to '${{ steps.set-current-datetime.outputs.value }}'
     # - uses: actions/checkout@v3
     # - uses: actions/setup-node@v3
     #   with:
