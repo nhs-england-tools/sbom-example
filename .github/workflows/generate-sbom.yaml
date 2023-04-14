@@ -29,20 +29,20 @@ jobs:
     - uses: advanced-security/spdx-dependency-submission-action@v0.0.1
       with:
         filePath: ./sbom-spdx-${{ steps.datetime.outputs.value }}.json
-    - run: |
-        docker run --rm \
-          --volume $PWD:/project \
-          --workdir /project \
-          anchore/grype:latest \
-            sbom:./sbom-spdx-${{ steps.datetime.outputs.value }}.json --output json --file=./cve-scan-${{ steps.datetime.outputs.value }}.json
-    - uses: actions/upload-artifact@v3
-      with:
-        name: cve-report
-        path: ./cve-scan-${{ steps.datetime.outputs.value }}.json
-    - uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ vars.AWS_ROLE_NAME }}
-        aws-region: ${{ vars.AWS_REGION }}
-    - run: |
-        aws s3 cp ./sbom-spdx-${{ steps.datetime.outputs.value }}.json s3://github-nhs-england-tools-sbom-example-bucket/sbom-example/
-        aws s3 cp ./cve-scan-${{ steps.datetime.outputs.value }}.json s3://github-nhs-england-tools-sbom-example-bucket/sbom-example/
+    # - run: |
+    #     docker run --rm \
+    #       --volume $PWD:/project \
+    #       --workdir /project \
+    #       anchore/grype:latest \
+    #         sbom:./sbom-spdx-${{ steps.datetime.outputs.value }}.json --output json --file=./cve-scan-${{ steps.datetime.outputs.value }}.json
+    # - uses: actions/upload-artifact@v3
+    #   with:
+    #     name: cve-report
+    #     path: ./cve-scan-${{ steps.datetime.outputs.value }}.json
+    # - uses: aws-actions/configure-aws-credentials@v2
+    #   with:
+    #     role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ vars.AWS_ROLE_NAME }}
+    #     aws-region: ${{ vars.AWS_REGION }}
+    # - run: |
+    #     aws s3 cp ./sbom-spdx-${{ steps.datetime.outputs.value }}.json s3://github-nhs-england-tools-sbom-example-bucket/sbom-example/
+    #     aws s3 cp ./cve-scan-${{ steps.datetime.outputs.value }}.json s3://github-nhs-england-tools-sbom-example-bucket/sbom-example/
