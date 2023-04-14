@@ -25,6 +25,7 @@ jobs:
       with:
         name: sbom-report
         path: ./sbom-spdx-$DATETIME.json
+
     # - run: |
     #     docker run --rm \
     #       --volume $PWD:/project \
