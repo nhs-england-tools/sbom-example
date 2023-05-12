@@ -1,4 +1,5 @@
 cve-scan-*.json
 node_modules
 sbom-spdx-*.json
+schema/hive-json-schema
 yarn-error.log
